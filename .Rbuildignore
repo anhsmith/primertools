@@ -1,2 +1,8 @@
 ^primertools\.Rproj$
 ^\.Rproj\.user$
+^vignettes$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^LICENSE\.md$
+^README\.qmd$
