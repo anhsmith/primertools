@@ -3,7 +3,8 @@ pkgdown: 2.1.3
 pkgdown_sha: ~
 articles:
   getting-started: getting-started.html
-last_built: 2025-11-07T07:55Z
+  primer-csv-example: primer-csv-example.html
+last_built: 2025-11-07T08:26Z
 urls:
   reference: https://anhsmith.github.io/primertools/reference
   article: https://anhsmith.github.io/primertools/articles
