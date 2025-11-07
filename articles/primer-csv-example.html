@@ -68,7 +68,14 @@
 
 
 
-    <p>This vignette demonstrates how to create a PRIMER-ready CSV file using <code><a href="../reference/write_primer_csv.html">write_primer_csv()</a></code>.</p>
+    <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
+<span><span class="co"># remotes::install_github("anhsmith/primertools")</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anhsmith.github.io/primertools/">primertools</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<p>This vignette demonstrates how to create a PRIMER-ready CSV file using <code><a href="../reference/write_primer_csv.html">write_primer_csv()</a></code>.</p>
 <section class="level2" data-number="1"><h2 data-number="1" id="writing-a-primer-ready-csv-with-factors-only">
 <span class="header-section-number">1</span> Writing a PRIMER-ready CSV with factors only<a class="anchor" aria-label="anchor" href="#writing-a-primer-ready-csv-with-factors-only"></a>
 </h2>
@@ -76,7 +83,7 @@
 <span class="header-section-number">1.1</span> Make example data<a class="anchor" aria-label="anchor" href="#make-example-data"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  Sample <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"S1"</span>, <span class="st">"S2"</span>, <span class="st">"S3"</span><span class="op">)</span>,</span>
 <span>  Site   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span><span class="op">)</span>,</span>
@@ -89,7 +96,7 @@
 <span class="header-section-number">1.2</span> Display example data<a class="anchor" aria-label="anchor" href="#display-example-data"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Sample Site Depth SpA SpB
@@ -102,14 +109,14 @@
 <span class="header-section-number">1.3</span> Create a temporary file to write the CSV to<a class="anchor" aria-label="anchor" href="#create-a-temporary-file-to-write-the-csv-to"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tmpfile</span> <span class="op">&lt;-</span> <span class="st">"forprimer.csv"</span></span></code></pre></div>
 </div>
 </section><section class="level3" data-number="1.4"><h3 data-number="1.4" id="write-the-primer-ready-csv">
 <span class="header-section-number">1.4</span> Write the PRIMER-ready CSV<a class="anchor" aria-label="anchor" href="#write-the-primer-ready-csv"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_primer_csv.html">write_primer_csv</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
 <span>  file <span class="op">=</span> <span class="va">tmpfile</span>,</span>
@@ -126,7 +133,7 @@
 <span class="header-section-number">1.5</span> Display the contents of the written CSV file<a class="anchor" aria-label="anchor" href="#display-the-contents-of-the-written-csv-file"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">tmpfile</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>,SpA,SpB,,Site,Depth
@@ -139,7 +146,7 @@ S3,3,0,,B,5</code></pre>
 <span class="header-section-number">1.6</span> Show output as a table<a class="anchor" aria-label="anchor" href="#show-output-as-a-table"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">tmpfile</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span>, as.is <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">out</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -156,7 +163,7 @@ S3,3,0,,B,5</code></pre>
 <span class="header-section-number">2.1</span> Define indicators for the variables<a class="anchor" aria-label="anchor" href="#define-indicators-for-the-variables"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">inds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  variable <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"SpA"</span>, <span class="st">"SpB"</span><span class="op">)</span>,</span>
 <span>  Trophic  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Carnivore"</span>, <span class="st">"Omnivore"</span><span class="op">)</span>,</span>
@@ -167,7 +174,7 @@ S3,3,0,,B,5</code></pre>
 <span class="header-section-number">2.2</span> Show indicators<a class="anchor" aria-label="anchor" href="#show-indicators"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">inds</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  variable   Trophic Guild
@@ -179,14 +186,14 @@ S3,3,0,,B,5</code></pre>
 <span class="header-section-number">2.3</span> Create a temporary file to write the CSV to<a class="anchor" aria-label="anchor" href="#create-a-temporary-file-to-write-the-csv-to-1"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">tmpfile</span> <span class="op">&lt;-</span> <span class="st">"forprimer_ind.csv"</span></span></code></pre></div>
 </div>
 </section><section class="level3" data-number="2.4"><h3 data-number="2.4" id="write-the-primer-ready-csv-1">
 <span class="header-section-number">2.4</span> Write the PRIMER-ready CSV<a class="anchor" aria-label="anchor" href="#write-the-primer-ready-csv-1"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/write_primer_csv.html">write_primer_csv</a></span><span class="op">(</span></span>
 <span>  data <span class="op">=</span> <span class="va">dat</span>,</span>
 <span>  file <span class="op">=</span> <span class="va">tmpfile</span>,</span>
@@ -205,7 +212,7 @@ S3,3,0,,B,5</code></pre>
 <span class="header-section-number">2.5</span> Display the contents of the written CSV file<a class="anchor" aria-label="anchor" href="#display-the-contents-of-the-written-csv-file-1"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">tmpfile</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>,SpA,SpB,,Site,Depth
@@ -221,7 +228,7 @@ Guild,Reef,Reef,,,</code></pre>
 <span class="header-section-number">2.6</span> Show output as a table<a class="anchor" aria-label="anchor" href="#show-output-as-a-table-1"></a>
 </h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="va">tmpfile</span>, check.names <span class="op">=</span> <span class="cn">FALSE</span>, as.is <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">out</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
