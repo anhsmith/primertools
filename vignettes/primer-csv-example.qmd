@@ -1,0 +1,71 @@
+---
+title: "Creating a PRIMER-ready CSV"
+format: html
+toc: true
+execute:
+  echo: true
+  eval: true
+---
+
+```{r setup, include=FALSE}
+library(primertools)
+```
+
+This vignette demonstrates how to create a PRIMER-ready CSV file using write_primer_csv().
+
+# Example data
+
+```{r}
+# Create example data frame
+dat <- data.frame(
+  Sample = c("S1", "S2", "S3"),
+  Site   = c("A", "A", "B"),
+  Depth  = c(5, 10, 5),
+  SpA    = c(10, 0, 3),
+  SpB    = c(2, 5, NA_real_)
+)
+
+# Display example data
+dat
+```
+
+# Writing a PRIMER-ready CSV
+
+```{r}
+# Define indicators for the variables
+inds <- data.frame(
+  variable = c("SpA", "SpB"),
+  Trophic  = c("Carnivore", "Omnivore"),
+  Guild    = c("Reef", "Reef")
+)
+
+# Display indicators
+inds
+```
+
+
+```{r}
+# Create a temporary file to write the CSV to
+tmpfile <- tempfile(fileext = ".csv")
+
+# Write the PRIMER-ready CSV
+write_primer_csv(
+  data = dat,
+  file = tmpfile,
+  sample_col = "Sample",
+  factors = c("Site", "Depth"),
+  variables = c("SpA", "SpB"),
+  na_to_zero = TRUE,
+  indicators = inds
+)
+
+# Display the contents of the written CSV file
+cat(readLines(tmpfile), sep = "\n")
+```
+
+# Notes
+
+- `na_to_zero = TRUE` replaces missing values with 0.
+- The output has a blank first column header and a blank separator column.
+- Indicators are added below, aligned with variable columns.
+
