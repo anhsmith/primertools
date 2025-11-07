@@ -2,33 +2,49 @@
 % Please edit documentation in R/write_primer_csv.R
 \name{write_primer_csv}
 \alias{write_primer_csv}
-\title{Write a PRIMER-ready CSV}
+\title{Write a PRIMER-ready CSV (samples, variables, factors, optional indicators)}
 \usage{
 write_primer_csv(
   data,
   file,
   sample_col,
   factors = NULL,
-  taxa = NULL,
-  na_to_zero = FALSE
+  variables = NULL,
+  na_to_zero = FALSE,
+  indicators = NULL,
+  indicators_var_col = "variable"
 )
 }
 \arguments{
-\item{data}{Data frame.}
+\item{data}{Data frame with at least a sample ID column and variable columns.}
 
-\item{file}{Output path to CSV.}
+\item{file}{Output CSV path.}
 
-\item{sample_col}{Column name for sample IDs.}
+\item{sample_col}{Name of the column in \code{data} containing sample IDs.}
 
-\item{factors}{Character vector of factor/metadata columns.}
+\item{factors}{Character vector of factor (sample metadata) columns (optional).}
 
-\item{taxa}{Character vector of taxa columns (if NULL, auto-detect numeric).}
+\item{variables}{Character vector of variable columns. If NULL, auto-detect
+numeric columns not in \code{sample_col} or \code{factors}.}
 
-\item{na_to_zero}{Logical; replace NA in taxa with 0.}
+\item{na_to_zero}{If TRUE, replace NA in variable columns with 0.}
+
+\item{indicators}{Optional data frame of variable-level metadata to append.
+Must contain a column named by \code{indicators_var_col} listing variable names;
+all other columns are indicator fields (each becomes one output row).}
+
+\item{indicators_var_col}{Name of the variable-name column in \code{indicators}.}
 }
 \value{
-Invisibly, the data frame written.
+(invisibly) a character matrix of the written data (without header).
 }
 \description{
-First column = samples (no header), then taxa, then a blank column, then factors.
+Layout:
+\enumerate{
+\item First column: sample names (blank header)
+\item Variable columns (numeric)
+\item Blank separator column (blank header)
+\item Factor columns (sample metadata)
+\item Optional: a blank row, then one row per Indicator (variable metadata)
+}
 }
