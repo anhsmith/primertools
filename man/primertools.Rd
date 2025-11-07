@@ -11,13 +11,13 @@ Helper functions for writing PRIMER import files and related utilities.
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://<user>.github.io/primertools/}
-  \item Report bugs at \url{https://github.com/<user>/primertools/issues}
+  \item \url{https://anhsmith.github.io/primertools/}
+  \item Report bugs at \url{https://github.com/anhsmith/primertools/issues}
 }
 
 }
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Adam Smith \email{anhsmith@gmail.com}
 
 }
 \keyword{internal}
