@@ -2,6 +2,7 @@
 title: "Creating a PRIMER-ready CSV"
 format: html
 toc: true
+number-sections: true
 execute:
   echo: true
   eval: true
@@ -11,12 +12,14 @@ execute:
 library(primertools)
 ```
 
-This vignette demonstrates how to create a PRIMER-ready CSV file using write_primer_csv().
+This vignette demonstrates how to create a PRIMER-ready CSV file using `write_primer_csv()`.
 
-# Example data
+
+## Writing a PRIMER-ready CSV with factors only
+
+### Make example data
 
 ```{r}
-# Create example data frame
 dat <- data.frame(
   Sample = c("S1", "S2", "S3"),
   Site   = c("A", "A", "B"),
@@ -24,31 +27,75 @@ dat <- data.frame(
   SpA    = c(10, 0, 3),
   SpB    = c(2, 5, NA_real_)
 )
+```
 
-# Display example data
+### Display example data
+
+```{r}
 dat
 ```
 
-# Writing a PRIMER-ready CSV
+### Create a temporary file to write the CSV to
 
 ```{r}
-# Define indicators for the variables
+tmpfile <- "forprimer.csv"
+```
+
+### Write the PRIMER-ready CSV
+
+```{r}
+write_primer_csv(
+  data = dat,
+  file = tmpfile,
+  sample_col = "Sample",
+  factors = c("Site", "Depth"),
+  variables = c("SpA", "SpB"),
+  na_to_zero = TRUE
+)
+```
+
+### Display the contents of the written CSV file
+
+```{r}
+cat(readLines(tmpfile), sep = "\n")
+```
+
+### Show output as a table
+
+```{r}
+out <- read.csv(tmpfile, check.names = FALSE, as.is = TRUE)
+out
+```
+
+
+## Writing a PRIMER-ready CSV with factors and indicators
+
+### Define indicators for the variables
+
+```{r}
 inds <- data.frame(
   variable = c("SpA", "SpB"),
   Trophic  = c("Carnivore", "Omnivore"),
   Guild    = c("Reef", "Reef")
 )
+```
 
-# Display indicators
+### Show indicators
+
+```{r}
+
 inds
 ```
 
+### Create a temporary file to write the CSV to
 
 ```{r}
-# Create a temporary file to write the CSV to
-tmpfile <- tempfile(fileext = ".csv")
+tmpfile <- "forprimer_ind.csv"
+```
 
-# Write the PRIMER-ready CSV
+### Write the PRIMER-ready CSV
+
+```{r}
 write_primer_csv(
   data = dat,
   file = tmpfile,
@@ -56,14 +103,25 @@ write_primer_csv(
   factors = c("Site", "Depth"),
   variables = c("SpA", "SpB"),
   na_to_zero = TRUE,
-  indicators = inds
+  indicators = inds,
+  indicators_var_col = "variable"
 )
+```
 
-# Display the contents of the written CSV file
+### Display the contents of the written CSV file
+
+```{r}
 cat(readLines(tmpfile), sep = "\n")
 ```
 
-# Notes
+### Show output as a table
+
+```{r}
+out <- read.csv(tmpfile, check.names = FALSE, as.is = TRUE)
+out
+```
+
+## Notes
 
 - `na_to_zero = TRUE` replaces missing values with 0.
 - The output has a blank first column header and a blank separator column.
