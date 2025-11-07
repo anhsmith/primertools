@@ -3,7 +3,6 @@ title: "primertools"
 format: gfm
 ---
 
-# primertools
 [![pkgdown site](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://anhsmith.github.io/primertools/)
 
 Small helpers for creating PRIMER-ready CSVs.
