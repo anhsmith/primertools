@@ -11,12 +11,12 @@ Small helpers for creating PRIMER-ready CSVs.
 
 You can install the development version of **primertools** from GitHub with:
 
-```{r}
+```r
 # install.packages("remotes")
 remotes::install_github("anhsmith/primertools")
 ```
 
-```{r}
+```r
 library(primertools)
 # example usage here
 ```
