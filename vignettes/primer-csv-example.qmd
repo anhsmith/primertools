@@ -8,7 +8,10 @@ execute:
   eval: true
 ---
 
-```{r setup, include=FALSE}
+```{r}
+# install.packages("remotes")
+# remotes::install_github("anhsmith/primertools")
+
 library(primertools)
 ```
 
