@@ -1,0 +1,20 @@
+# primertools
+
+[![](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://anhsmith.github.io/primertools/)
+
+Small helpers for creating PRIMER-ready CSVs.
+
+## Installation
+
+You can install the development version of **primertools** from GitHub
+with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("anhsmith/primertools")
+```
+
+``` r
+library(primertools)
+# example usage here
+```

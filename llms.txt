@@ -1,0 +1,37 @@
+# primertools
+
+[![](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://anhsmith.github.io/primertools/)
+
+Small helpers for creating PRIMER-ready CSVs.
+
+## Installation
+
+You can install the development version of **primertools** from GitHub
+with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("anhsmith/primertools")
+```
+
+``` r
+library(primertools)
+# example usage here
+```
+
+# Package index
+
+## All functions
+
+- [`write_primer_csv()`](https://anhsmith.github.io/primertools/reference/write_primer_csv.md)
+  : Write a PRIMER-ready CSV (samples, variables, factors, optional
+  indicators)
+
+# Articles
+
+### All vignettes
+
+- [Getting
+  started](https://anhsmith.github.io/primertools/articles/getting-started.md):
+- [Creating a PRIMER-ready
+  CSV](https://anhsmith.github.io/primertools/articles/primer-csv-example.md):

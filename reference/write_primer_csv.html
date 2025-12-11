@@ -94,8 +94,8 @@ Optional: a blank row, then one row per Indicator (variable metadata)
 
 
 <dt id="arg-variables">variables<a class="anchor" aria-label="anchor" href="#arg-variables"></a></dt>
-<dd><p>Character vector of variable columns. If NULL, auto-detect
-numeric columns not in <code>sample_col</code> or <code>factors</code>.</p></dd>
+<dd><p>Character vector of variable (taxon) columns. If NULL,
+all columns not in <code>sample_col</code> or <code>factors</code> are treated as variables.</p></dd>
 
 
 <dt id="arg-na-to-zero">na_to_zero<a class="anchor" aria-label="anchor" href="#arg-na-to-zero"></a></dt>
@@ -116,6 +116,13 @@ all other columns are indicator fields (each becomes one output row).</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>(invisibly) a character matrix of the written data (without header).</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>By default, when <code>variables</code> is NULL, all columns other than <code>sample_col</code>
+and <code>factors</code> are treated as taxon/variable columns. Any such columns must
+be coercible to numeric; otherwise the function will error and you should
+move those columns into <code>factors</code>.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
@@ -126,7 +133,7 @@ all other columns are indicator fields (each becomes one output row).</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer></div>
