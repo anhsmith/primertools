@@ -24,8 +24,8 @@ write_primer_csv(
 
 \item{factors}{Character vector of factor (sample metadata) columns (optional).}
 
-\item{variables}{Character vector of variable columns. If NULL, auto-detect
-numeric columns not in \code{sample_col} or \code{factors}.}
+\item{variables}{Character vector of variable (taxon) columns. If NULL,
+all columns not in \code{sample_col} or \code{factors} are treated as variables.}
 
 \item{na_to_zero}{If TRUE, replace NA in variable columns with 0.}
 
@@ -47,4 +47,10 @@ Layout:
 \item Factor columns (sample metadata)
 \item Optional: a blank row, then one row per Indicator (variable metadata)
 }
+}
+\details{
+By default, when \code{variables} is NULL, all columns other than \code{sample_col}
+and \code{factors} are treated as taxon/variable columns. Any such columns must
+be coercible to numeric; otherwise the function will error and you should
+move those columns into \code{factors}.
 }

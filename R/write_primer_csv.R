@@ -11,14 +11,20 @@
 #' @param file Output CSV path.
 #' @param sample_col Name of the column in `data` containing sample IDs.
 #' @param factors Character vector of factor (sample metadata) columns (optional).
-#' @param variables Character vector of variable columns. If NULL, auto-detect
-#'   numeric columns not in `sample_col` or `factors`.
+#' @param variables Character vector of variable (taxon) columns. If NULL,
+#'   all columns not in `sample_col` or `factors` are treated as variables.
 #' @param na_to_zero If TRUE, replace NA in variable columns with 0.
 #' @param indicators Optional data frame of variable-level metadata to append.
 #'   Must contain a column named by `indicators_var_col` listing variable names;
 #'   all other columns are indicator fields (each becomes one output row).
 #' @param indicators_var_col Name of the variable-name column in `indicators`.
 #' @return (invisibly) a character matrix of the written data (without header).
+#' @details
+#' By default, when `variables` is NULL, all columns other than `sample_col`
+#' and `factors` are treated as taxon/variable columns. Any such columns must
+#' be coercible to numeric; otherwise the function will error and you should
+#' move those columns into `factors`.
+
 #' @export
 write_primer_csv <- function(
     data,
@@ -40,16 +46,23 @@ write_primer_csv <- function(
     df[factors] <- lapply(df[factors], function(x) as.character(if (is.factor(x)) as.character(x) else x))
   }
 
-  # Determine variables (numeric cols not in sample/factors if not supplied)
+  # Determine variables (all non-sample, non-factor columns if not supplied)
   if (is.null(variables)) {
-    candidates <- setdiff(names(df), c(sample_col, factors))
-    numerics <- vapply(df[candidates], is.numeric, logical(1))
-    variables <- candidates[numerics]
+    # By default, assume any column that is not the sample ID and not a factor
+    # is a taxon/variable column.
+    variables <- setdiff(names(df), c(sample_col, factors))
   } else {
     miss_v <- setdiff(variables, names(df))
     if (length(miss_v)) stop("Missing variable columns: ", paste(miss_v, collapse = ", "))
   }
-  if (!length(variables)) stop("No variable columns found. Supply `variables=` or ensure numeric variables exist.")
+
+  if (!length(variables)) {
+    stop(
+      "No variable columns found. Either:\n",
+      "  * supply `variables =` explicitly, or\n",
+      "  * ensure there are columns other than `sample_col` and `factors`."
+    )
+  }
 
   # Coerce variables to numeric
   df[variables] <- lapply(df[variables], function(x) {
