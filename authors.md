@@ -2,20 +2,20 @@
 
 ## Authors
 
-- **Adam Smith N. H.**. Author, maintainer.
+- **Adam N. H. Smith**. Author, maintainer.
 
 ## Citation
 
 Source:
 [`DESCRIPTION`](https://github.com/anhsmith/primertools/blob/master/DESCRIPTION)
 
-N. H. AS (2026). *primertools: Tools for Reading and Writing PRIMER
+Smith AN (2026). *primertools: Tools for Reading and Writing PRIMER
 Files*. R package version 0.1.0,
 <https://anhsmith.github.io/primertools/>.
 
     @Manual{,
       title = {primertools: Tools for Reading and Writing PRIMER Files},
-      author = {Adam Smith {N. H.}},
+      author = {Adam N. H. Smith},
       year = {2026},
       note = {R package version 0.1.0},
       url = {https://anhsmith.github.io/primertools/},

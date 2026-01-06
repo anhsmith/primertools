@@ -13,4 +13,4 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Adam Smith N. H. <anhsmith@gmail.com>
+**Maintainer**: Adam N. H. Smith <anhsmith@gmail.com>

@@ -58,25 +58,19 @@
 <div class="page-header"><h1 id="primertools">primertools<a class="anchor" aria-label="anchor" href="#primertools"></a>
 </h1></div>
 <p><a href="https://anhsmith.github.io/primertools/"><img src="https://img.shields.io/badge/docs-pkgdown-blue.svg"></a></p>
-<p>This packages contains some helper functions for preparing datasets for import into <strong><a href="https://www.primer-e.com" class="external-link">PRIMER-e</a></strong> software, and for reading common PRIMER output files (e.g., PERMANOVA results) for downstream analysis in R.</p>
+<p>The <code>primertools</code> package provides helper functions for preparing datasets for import into<br><strong><a href="https://www.primer-e.com" class="external-link">PRIMER-e</a></strong> software, and for reading common PRIMER output files<br>
+(e.g. PERMANOVA results) for downstream analysis in R.</p>
+<p><code>primertools</code> is designed to support reproducible workflows that combine PRIMER with R.<br>
+It does <strong>not</strong> reimplement PRIMER analyses.</p>
 <div class="section level2">
 <h2 id="about-primer">About PRIMER<a class="anchor" aria-label="anchor" href="#about-primer"></a>
 </h2>
-<p>PRIMER is a widely used software package for multivariate analysis of ecological community data. Although there are some packages in R that provide similar functionality, PRIMER software is the authoritative tool for the routines it provides.</p>
+<p>PRIMER is a widely used software package (made by PRIMER-e) for multivariate analysis of ecological community data.<br>
+Although R provides packages with overlapping functionality, PRIMER software is the authoritative implementation for the routines it provides.</p>
 <ul>
 <li><a href="https://www.primer-e.com" class="external-link">PRIMER-e website</a></li>
 <li><a href="https://learninghub.primer-e.com/books" class="external-link">PRIMER-e learning hub</a></li>
 <li><a href="https://learninghub.primer-e.com/books/should-i-use-primer-or-r" class="external-link">Should I use PRIMER or R?</a></li>
-</ul>
-</div>
-<div class="section level2">
-<h2 id="scope">Scope<a class="anchor" aria-label="anchor" href="#scope"></a>
-</h2>
-<p><code>primertools</code> is designed to support reproducible workflows that combine PRIMER with R.<br>
-It does <strong>not</strong> reimplement PRIMER analyses, but focuses on:</p>
-<ul>
-<li>writing PRIMER-ready data files from R</li>
-<li>reading and tidying PRIMER output for further analysis, plotting, or reporting</li>
 </ul>
 </div>
 <div class="section level2">
@@ -87,8 +81,7 @@ It does <strong>not</strong> reimplement PRIMER analyses, but focuses on:</p>
 <code class="sourceCode R"><span><span class="co"># install.packages("remotes")</span></span>
 <span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"anhsmith/primertools"</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anhsmith.github.io/primertools/">primertools</a></span><span class="op">)</span></span>
-<span><span class="co"># example usage here</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://anhsmith.github.io/primertools/">primertools</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -118,7 +111,7 @@ It does <strong>not</strong> reimplement PRIMER analyses, but focuses on:</p>
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Adam Smith N. H. <br><small class="roles"> Author, maintainer </small>   </li>
+<li>Adam N. H. Smith <br><small class="roles"> Author, maintainer </small>   </li>
 </ul>
 </div>
 
@@ -129,7 +122,7 @@ It does <strong>not</strong> reimplement PRIMER analyses, but focuses on:</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Adam Smith N. H..</p>
+  <p>Developed by Adam N. H. Smith.</p>
 </div>
 
 <div class="pkgdown-footer-right">
