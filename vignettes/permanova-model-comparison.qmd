@@ -1,0 +1,128 @@
+---
+title: "Comparing PRIMER PERMANOVA models with an AIC-like criterion"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Comparing PRIMER PERMANOVA models with an AIC-like criterion}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(primertools)
+```
+
+## Overview
+
+PRIMER PERMANOVA is commonly used to assess the relative importance of
+space, time, and their interactions in multivariate community data.
+
+This vignette demonstrates how to use two helper functions in
+**primertools** to compute an AIC-like criterion for PERMANOVA models:
+
+- `aic_permanova()` — computes the criterion from summary quantities
+- `get_permanova_aic()` — extracts those quantities directly from a
+  PRIMER PERMANOVA results table
+
+The intent is **model comparison**, not hypothesis testing.
+
+## Background
+
+An AIC-style score for PERMANOVA models can be computed as:
+
+
+$$
+\mathrm{AIC} = N \log(SS_{\text{res}}/N) + 2\nu
+$$
+
+where:
+
+- $N$ is the number of observations
+- $SS_{\mathrm{res}}$ is the residual sum of squares
+- $\nu$ is the effective number of fitted terms, computed as  
+  `Total df − Residual df`
+
+Lower values indicate better-supported models, conditional on the same
+response data and distance measure.
+
+## Example PRIMER PERMANOVA output
+
+The package ships with a small example PERMANOVA output file:
+
+```{r}
+f <- system.file("extdata", "PERMANOVA1.txt", package = "primertools")
+```
+
+## Read the PERMANOVA results table
+
+We first extract the PERMANOVA table of results.
+
+```{r}
+tab <- read_permanova_results_table(f)
+tab
+```
+
+This table must contain, at minimum:
+
+- a `Source` column
+- degrees of freedom (`df`)
+- sums of squares (`SS`)
+- rows labelled `Total` and `Res`
+
+## Compute an AIC-like score directly
+
+In PRIMER outputs, the number of observations \(N\) is typically
+`Total df + 1`.
+
+```{r}
+N <- tab$df[tab$Source == "Total"] + 1
+
+get_permanova_aic(tab, N = N)
+```
+
+The returned tibble contains:
+
+- `Model` — the object name (or user-supplied label)
+- `SS_residual` — residual sum of squares
+- `nu` — effective model complexity
+- `AIC` — AIC-like score (rounded by default)
+
+## Manual computation (optional)
+
+If you already know the relevant quantities, you can call
+`aic_permanova()` directly:
+
+```{r}
+SS_res <- tab$SS[tab$Source == "Res"]
+nu     <- tab$df[tab$Source == "Total"] - tab$df[tab$Source == "Res"]
+
+aic_permanova(SS_res, N = N, v = nu)
+```
+
+## Comparing multiple models
+
+These helpers are designed to be used across *multiple PERMANOVA models*
+fitted to the same data.
+
+In practice, users typically:
+
+1. Fit several alternative PERMANOVA models in PRIMER
+2. Export each PERMANOVA table
+3. Read each table into R
+4. Combine results into a single comparison table
+
+This structure should work naturally with `purrr::map_dfr()`.
+
+## Notes and cautions
+
+- This criterion is intended for **relative model comparison**, not
+  formal inference.
+- Models must be fitted to the **same response data** using the **same
+  distance measure**.
+- Absolute AIC values are not meaningful—only differences between models.
+
+## See also
+
+- The vignette *“Reading PRIMER PERMANOVA outputs”* for details on parsing
+  PRIMER text files.
+- `?aic_permanova`
+- `?get_permanova_aic`
