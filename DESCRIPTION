@@ -16,4 +16,4 @@ Suggests:
     rmarkdown,
     testthat
 Config/testthat/edition: 3
-VignetteBuilder: quarto
+VignetteBuilder: quarto, knitr

@@ -1,0 +1,52 @@
+---
+title: "Reading PRIMER PERMANOVA outputs"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Reading PRIMER PERMANOVA outputs}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(primertools)
+```
+
+## Overview
+
+This vignette demonstrates how to extract key results from a PRIMER
+PERMANOVA text output file using `primertools`.
+
+Specifically, we show how to read:
+
+- the *PERMANOVA table of results*
+- the *estimates of components of variation*
+
+## Example PERMANOVA file
+
+The package ships with a small example PERMANOVA output file.
+
+```{r}
+f <- system.file("extdata", "PERMANOVA1.txt", package = "primertools")
+
+cat(readLines(f), sep = "\n")
+```
+
+## PERMANOVA table of results
+
+```{r}
+tab <- read_permanova_results_table(f)
+tab
+```
+
+## Components of variation
+
+```{r}
+covs <- read_permanova_components_of_variation(f)
+covs
+```
+
+## Notes
+
+- These functions are designed for PRIMER v7–v8 text outputs.
+- They ignore auxiliary sections such as EMS tables and pseudo-F constructions.
+- The word "Unique" is added to the `Unique perms` column manually (because the "Unique" is dropped when reading the table).
