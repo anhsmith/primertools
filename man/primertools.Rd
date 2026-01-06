@@ -4,9 +4,9 @@
 \name{primertools}
 \alias{primertools-package}
 \alias{primertools}
-\title{primertools: Utilities for PRIMER-ready CSVs}
+\title{primertools: Utilities for reading and writing PRIMER files}
 \description{
-Helper functions for writing PRIMER import files and related utilities.
+Helper functions for writing PRIMER import files and reading PRIMER export files.
 }
 \seealso{
 Useful links:

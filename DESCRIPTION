@@ -1,9 +1,9 @@
 Package: primertools
-Title: What the Package Does (One Line, Title Case)
+Title: Tools for Reading and Writing PRIMER Files
 Version: 0.1.0
 Authors@R: 
     person("Adam", "Smith", , "anhsmith@gmail.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: Utility functions for preparing PRIMER-ready input files and for reading common output files produced by PRIMER software (e.g. PERMANOVA results), supporting reproducible workflows that combine PRIMER with downstream analysis and reporting in R.
 License: MIT + file LICENSE
 URL: https://anhsmith.github.io/primertools/
 BugReports: https://github.com/anhsmith/primertools/issues
