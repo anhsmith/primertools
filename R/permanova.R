@@ -3,9 +3,11 @@
 #' Parses the **PERMANOVA table of results** section from a PRIMER PERMANOVA
 #' text output file into a data frame.
 #'
-#' The PRIMER output sometimes prints an extra "pre-header" line (e.g. `Unique`)
-#' above the `perms` column; this function drops everything before the true header
-#' line (starting with `Source`) before parsing.
+#' PRIMER prints the label for the permutations column across two lines
+#' (i.e., `Unique` on one line and `perms` on the next) but they can
+#' sometimes be misaligned in plain-text exports.
+#' This function ignores the line with just `Unique` and simply
+#' renames the `perms` column to `Unique perms` later for clarity.
 #'
 #' @param path Path to a PRIMER PERMANOVA text output file.
 #' @param encoding File encoding passed to [readLines()]. Default `"UTF-8"`.

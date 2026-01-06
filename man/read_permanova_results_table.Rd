@@ -19,9 +19,11 @@ Parses the \strong{PERMANOVA table of results} section from a PRIMER PERMANOVA
 text output file into a data frame.
 }
 \details{
-The PRIMER output sometimes prints an extra "pre-header" line (e.g. \code{Unique})
-above the \code{perms} column; this function drops everything before the true header
-line (starting with \code{Source}) before parsing.
+PRIMER prints the label for the permutations column across two lines
+(i.e., \code{Unique} on one line and \code{perms} on the next) but they can
+sometimes be misaligned in plain-text exports.
+This function ignores the line with just \code{Unique} and simply
+renames the \code{perms} column to \verb{Unique perms} later for clarity.
 }
 \examples{
 f <- system.file("extdata", "PERMANOVA1.txt", package = "primertools")
