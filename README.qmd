@@ -5,7 +5,7 @@ format: gfm
 
 [![pkgdown site](https://img.shields.io/badge/docs-pkgdown-blue.svg)](https://anhsmith.github.io/primertools/)
 
-This package provides helper functions for preparing datasets for import into  
+The `primertools` package provides helper functions for preparing datasets for import into  
 **[PRIMER-e](https://www.primer-e.com)** software, and for reading common PRIMER output files  
 (e.g. PERMANOVA results) for downstream analysis in R.
 
