@@ -27,9 +27,11 @@ A data frame containing the PERMANOVA results table.
 
 ## Details
 
-The PRIMER output sometimes prints an extra "pre-header" line (e.g.
-`Unique`) above the `perms` column; this function drops everything
-before the true header line (starting with `Source`) before parsing.
+PRIMER prints the label for the permutations column across two lines
+(i.e., `Unique` on one line and `perms` on the next) but they can
+sometimes be misaligned in plain-text exports. This function ignores the
+line with just `Unique` and simply renames the `perms` column to
+`Unique perms` later for clarity.
 
 ## Examples
 

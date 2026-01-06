@@ -69,9 +69,11 @@ text output file into a data frame.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The PRIMER output sometimes prints an extra "pre-header" line (e.g. <code>Unique</code>)
-above the <code>perms</code> column; this function drops everything before the true header
-line (starting with <code>Source</code>) before parsing.</p>
+    <p>PRIMER prints the label for the permutations column across two lines
+(i.e., <code>Unique</code> on one line and <code>perms</code> on the next) but they can
+sometimes be misaligned in plain-text exports.
+This function ignores the line with just <code>Unique</code> and simply
+renames the <code>perms</code> column to <code>Unique perms</code> later for clarity.</p>
     </div>
 
     <div class="section level2">
