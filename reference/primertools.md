@@ -1,6 +1,7 @@
-# primertools: Utilities for PRIMER-ready CSVs
+# primertools: Utilities for reading and writing PRIMER files
 
-Helper functions for writing PRIMER import files and related utilities.
+Helper functions for writing PRIMER import files and reading PRIMER
+export files.
 
 ## See also
 
