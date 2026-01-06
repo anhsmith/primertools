@@ -43,6 +43,10 @@ library(primertools)
 
 ## All functions
 
+- [`aic_permanova()`](https://anhsmith.github.io/primertools/reference/aic_permanova.md)
+  : AIC-like criterion for PERMANOVA models
+- [`get_permanova_aic()`](https://anhsmith.github.io/primertools/reference/get_permanova_aic.md)
+  : Extract PERMANOVA AIC components from a PRIMER PERMANOVA table
 - [`read_permanova_components_of_variation()`](https://anhsmith.github.io/primertools/reference/read_permanova_components_of_variation.md)
   : Read PRIMER PERMANOVA "Estimates of components of variation" from a
   text output file
