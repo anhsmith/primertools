@@ -9,14 +9,14 @@
 Source:
 [`DESCRIPTION`](https://github.com/anhsmith/primertools/blob/master/DESCRIPTION)
 
-Smith A (2025). *primertools: What the Package Does (One Line, Title
+Smith A (2026). *primertools: What the Package Does (One Line, Title
 Case)*. R package version 0.0.0.9000,
 <https://anhsmith.github.io/primertools/>.
 
     @Manual{,
       title = {primertools: What the Package Does (One Line, Title Case)},
       author = {Adam Smith},
-      year = {2025},
+      year = {2026},
       note = {R package version 0.0.0.9000},
       url = {https://anhsmith.github.io/primertools/},
     }
