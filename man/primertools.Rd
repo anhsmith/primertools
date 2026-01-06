@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Adam Smith \email{anhsmith@gmail.com}
+\strong{Maintainer}: Adam Smith N. H. \email{anhsmith@gmail.com}
 
 }
 \keyword{internal}
