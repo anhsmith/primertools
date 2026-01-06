@@ -6,6 +6,7 @@
 #' @docType package
 #' @name primertools
 #' @keywords internal
+#' @importFrom tibble tibble column_to_rownames
 "_PACKAGE"
 
 ## usethis namespace: start
