@@ -1,0 +1,42 @@
+---
+title: "Reading PRIMER SIMPER outputs"
+format: html
+vignette: >
+  %\VignetteIndexEntry{Reading PRIMER SIMPER outputs}
+  %\VignetteEngine{knitr::knitr}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup}
+library(primertools)
+```
+
+## Overview
+
+This vignette shows how to read a PRIMER SIMPER text output file into a structured list
+of within-group and between-group contribution tables.
+
+## Read an example file shipped with the package
+
+```{r}
+simper_path <- system.file("extdata", "SIMPER1.txt", package = "primertools")
+simper_path
+
+x <- read_simper(simper_path)
+
+names(x)
+names(x$within)
+names(x$between)
+```
+
+## Within-group contributions
+
+```{r}
+x$within$A
+```
+
+## Between-group contributions
+
+```{r}
+x$between$`A vs H`
+```
