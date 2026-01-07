@@ -5,14 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Reading PRIMER PERMANOVA outputs • primertools</title>
+<title>Reading PRIMER SIMPER outputs • primertools</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
-<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="permanova_files/libs/quarto-html/popper.min.js"></script><script src="permanova_files/libs/quarto-html/tippy.umd.min.js"></script><link href="permanova_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="permanova_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reading PRIMER PERMANOVA outputs">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><script src="read_simper_files/libs/quarto-html/popper.min.js"></script><script src="read_simper_files/libs/quarto-html/tippy.umd.min.js"></script><link href="read_simper_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="read_simper_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Reading PRIMER SIMPER outputs">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,12 +58,12 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
 
-      <h1>Reading PRIMER PERMANOVA outputs</h1>
+      <h1>Reading PRIMER SIMPER outputs</h1>
 
 
 
 
-      <small class="dont-index">Source: <a href="https://github.com/anhsmith/primertools/blob/master/vignettes/permanova.qmd" class="external-link"><code>vignettes/permanova.qmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/anhsmith/primertools/blob/master/vignettes/read_simper.qmd" class="external-link"><code>vignettes/read_simper.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
     </div>
 
@@ -78,108 +78,99 @@
 </div>
 <section class="level2"><h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This vignette demonstrates how to extract key results from a PRIMER PERMANOVA text output file using <code>primertools</code>.</p>
-<p>Specifically, we show how to read:</p>
-<ul>
-<li>the <em>PERMANOVA table of results</em>
-</li>
-<li>the <em>estimates of components of variation</em>
-</li>
-</ul></section><section class="level2"><h2 id="example-permanova-file">Example PERMANOVA file<a class="anchor" aria-label="anchor" href="#example-permanova-file"></a>
+<p>This vignette shows how to read a PRIMER SIMPER text output file into a structured list of within-group and between-group contribution tables.</p>
+</section><section class="level2"><h2 id="read-an-example-file-shipped-with-the-package">Read an example file shipped with the package<a class="anchor" aria-label="anchor" href="#read-an-example-file-shipped-with-the-package"></a>
 </h2>
-<p>The package ships with a small example PERMANOVA output file.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"PERMANOVA1.txt"</span>, package <span class="op">=</span> <span class="st">"primertools"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readLines.html" class="external-link">readLines</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">simper_path</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"SIMPER1.txt"</span>, package <span class="op">=</span> <span class="st">"primertools"</span><span class="op">)</span></span>
+<span><span class="va">simper_path</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>PERMANOVA
-Permutational MANOVA
-
-Resemblance worksheet
-Name: Resem1
-Data type: Similarity
-Selection: All
-Resemblance: S7 Jaccard
-
-Sums of squares type: Type III (partial)
-Fixed effects sum to zero for mixed terms
-Permutation method: Permutation of residuals under a reduced model
-Number of permutations: 9999
-
-Factors
-Name    Abbrev. Type    Levels
-Location    Lo  Random       4
-Site    Si  Random       8
-Area    Ar  Random      16
-
-PERMANOVA table of results
-                                                Unique
-Source  df          SS      MS  Pseudo-F    P(perm)  perms
-Lo   3       35564   11855    2.8086     0.0093    105
-Si(Lo)   4       16883  4220.8    1.3564     0.0381   9849
-Ar(Si(Lo))   8       24895  3111.8     1.232     0.0076   9716
-Res 64  1.6165E+05  2525.7
-Total   79  2.3899E+05
-
-Details of the expected mean squares (EMS) for the model
-Source  EMS
-Lo  1*V(Res) + 5*V(Ar(Si(Lo))) + 10*V(Si(Lo)) + 20*V(Lo)
-Si(Lo)  1*V(Res) + 5*V(Ar(Si(Lo))) + 10*V(Si(Lo))
-Ar(Si(Lo))  1*V(Res) + 5*V(Ar(Si(Lo)))
-Res 1*V(Res)
-
-Construction of Pseudo-F ratio(s) from mean squares
-Source  Numerator   Denominator Num.df  Den.df
-Lo  1*Lo    1*Si(Lo)         3       4
-Si(Lo)  1*Si(Lo)    1*Ar(Si(Lo))         4       8
-Ar(Si(Lo))  1*Ar(Si(Lo))    1*Res        8      64
-
-Estimates of components of variation
-Source  Estimate    Sq.root
-V(Lo)     381.69     19.537
-V(Si(Lo))      110.9     10.531
-V(Ar(Si(Lo)))     117.22     10.827
-V(Res)    2525.7     50.257</code></pre>
+<pre><code>[1] "/home/runner/work/_temp/Library/primertools/extdata/SIMPER1.txt"</code></pre>
 </div>
-</div>
-</section><section class="level2"><h2 id="permanova-table-of-results">PERMANOVA table of results<a class="anchor" aria-label="anchor" href="#permanova-table-of-results"></a>
-</h2>
-<div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">tab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_permanova_results_table.html">read_permanova_results_table</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span><span class="va">tab</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_simper.html">read_simper</a></span><span class="op">(</span><span class="va">simper_path</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Source df     SS      MS Pseudo-F P(perm) Unique perms
-1         Lo  3  35564 11855.0   2.8086  0.0093          105
-2     Si(Lo)  4  16883  4220.8   1.3564  0.0381         9849
-3 Ar(Si(Lo))  8  24895  3111.8   1.2320  0.0076         9716
-4        Res 64 161650  2525.7       NA      NA           NA
-5      Total 79 238990      NA       NA      NA           NA</code></pre>
+<pre><code>[1] "metadata" "within"   "between" </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">within</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B" "A" "H" "L"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">between</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "B vs A" "B vs H" "A vs H" "B vs L" "A vs L" "H vs L"</code></pre>
 </div>
 </div>
-</section><section class="level2"><h2 id="components-of-variation">Components of variation<a class="anchor" aria-label="anchor" href="#components-of-variation"></a>
+</section><section class="level2"><h2 id="within-group-contributions">Within-group contributions<a class="anchor" aria-label="anchor" href="#within-group-contributions"></a>
 </h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">covs</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_permanova_components_of_variation.html">read_permanova_components_of_variation</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span></span>
-<span><span class="va">covs</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">within</span><span class="op">$</span><span class="va">A</span></span></code></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>         Source Estimate Sq.root
-1         V(Lo)   381.69  19.537
-2     V(Si(Lo))   110.90  10.531
-3 V(Ar(Si(Lo)))   117.22  10.827
-4        V(Res)  2525.70  50.257</code></pre>
+<pre><code>                  species av_abund av_sim sim_sd contrib   cum group
+1        Hiatella arctica    16.70  12.75   1.34   33.80 33.80     A
+2       Chlamys zelandiae     8.80   6.43   1.18   17.04 50.84     A
+3      Lamellaria ophione     3.85   3.40   0.82    9.01 59.85     A
+4         Xymene pusillus     4.35   3.22   1.36    8.54 68.38     A
+5 Trichomusculus barbatus     2.65   1.97   0.97    5.21 73.60     A
+  avg_similarity
+1          37.72
+2          37.72
+3          37.72
+4          37.72
+5          37.72</code></pre>
 </div>
 </div>
-</section><section class="level2"><h2 id="notes">Notes<a class="anchor" aria-label="anchor" href="#notes"></a>
+</section><section class="level2"><h2 id="between-group-contributions">Between-group contributions<a class="anchor" aria-label="anchor" href="#between-group-contributions"></a>
 </h2>
-<ul>
-<li>These functions are designed for PRIMER v7–v8 text outputs.</li>
-<li>They ignore auxiliary sections such as EMS tables and pseudo-F constructions.</li>
-<li>The word “Unique” is added to the <code>Unique perms</code> column manually (because the “Unique” is dropped when reading the table).</li>
-</ul></section><script id="quarto-html-after-body" type="application/javascript">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">between</span><span class="op">$</span><span class="va">`A vs H`</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                     species av_abund_1 av_abund_2 av_diss diss_sd contrib
+1           Hiatella arctica      16.70      13.20   10.18    1.07   14.76
+2          Chlamys zelandiae       8.80       7.75    6.11    1.05    8.86
+3    Trichomusculus barbatus       2.65       6.25    3.29    1.18    4.77
+4         Lamellaria ophione       3.85       0.80    3.27    0.77    4.75
+5            Xymene pusillus       4.35       1.50    3.18    1.12    4.62
+6  Pisinna olivacea impressa       2.40       4.25    3.06    0.98    4.44
+7        Borniola reniformis       3.00       3.70    2.91    1.10    4.22
+8            Eatonina micans       0.85       3.20    2.18    0.80    3.16
+9      Cantharidus purpureus       0.30       2.85    1.99    1.12    2.88
+10    Eatoniella roseocincta       1.45       2.05    1.86    0.75    2.70
+11         Crepidula costata       2.25       0.10    1.80    0.94    2.62
+12             Curveulima sp       1.95       0.60    1.67    0.66    2.42
+13    Onithochiton neglectus       2.00       1.55    1.60    0.96    2.32
+14      Fictonoba rufolactea       0.65       1.80    1.46    0.57    2.11
+15         Asteracmea suteri       1.90       0.15    1.40    0.82    2.03
+16        Modiolarca impacta       1.65       0.50    1.33    0.52    1.94
+17              Onoba fumata       1.50       0.25    1.20    0.69    1.75
+     cum group1 group2 avg_dissimilarity
+1  14.76      A      H             68.94
+2  23.62      A      H             68.94
+3  28.40      A      H             68.94
+4  33.14      A      H             68.94
+5  37.76      A      H             68.94
+6  42.20      A      H             68.94
+7  46.42      A      H             68.94
+8  49.58      A      H             68.94
+9  52.46      A      H             68.94
+10 55.16      A      H             68.94
+11 57.78      A      H             68.94
+12 60.19      A      H             68.94
+13 62.52      A      H             68.94
+14 64.63      A      H             68.94
+15 66.66      A      H             68.94
+16 68.59      A      H             68.94
+17 70.34      A      H             68.94</code></pre>
+</div>
+</div>
+</section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);

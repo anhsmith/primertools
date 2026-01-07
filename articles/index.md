@@ -10,3 +10,5 @@
   outputs](https://anhsmith.github.io/primertools/articles/permanova.md):
 - [Creating a PRIMER-ready
   CSV](https://anhsmith.github.io/primertools/articles/primer-csv-example.md):
+- [Reading PRIMER SIMPER
+  outputs](https://anhsmith.github.io/primertools/articles/read_simper.md):
