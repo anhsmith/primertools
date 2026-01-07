@@ -16,6 +16,9 @@ library(primertools)
 This vignette shows how to read a PRIMER SIMPER text output file into a structured list
 of within-group and between-group contribution tables.
 
+It also demonstrates helper functions that convert the nested list output into tidy
+tibbles that are easier to filter, join, tabulate, and plot.
+
 ## Read an example file shipped with the package
 
 ```{r}
@@ -31,12 +34,96 @@ names(x$between)
 
 ## Within-group contributions
 
+The `within` element is a named list of data frames, one per group.
+
 ```{r}
 x$within$A
 ```
 
 ## Between-group contributions
 
+The `between` element is a named list of data frames, one per group contrast.
+
 ```{r}
 x$between$`A vs H`
 ```
+
+## Helper: convert within-group results to a single tibble
+
+`tidy_simper_within()` stacks the within-group tables into one tibble and adds a `group`
+column. This makes it easy to filter by cumulative contribution and to work with the
+results using standard tidyverse workflows.
+
+```{r}
+d_within <- tidy_simper_within(x, cum_max = 90)
+
+d_within
+```
+
+Example: show the top 10 taxa per group by contribution.
+
+```{r}
+d_within |>
+  dplyr::group_by(group) |>
+  dplyr::slice_max(contrib, n = 10, with_ties = FALSE) |>
+  dplyr::ungroup()
+```
+
+## Helper: convert between-group results to a single tibble
+
+`tidy_simper_between()` stacks the between-group tables into one tibble and adds a
+`contrast` column. It also computes `delta_abund = av_abund_1 - av_abund_2` to indicate
+which group has the higher average abundance for each taxon.
+
+```{r}
+d_between <- tidy_simper_between(x, cum_max = 70)
+
+d_between
+```
+
+Example: extract the top contributors for one contrast.
+
+```{r}
+d_between |>
+  dplyr::filter(contrast == "A vs H") |>
+  dplyr::arrange(desc(contrib)) |>
+  dplyr::slice_head(n = 15)
+```
+
+## Helper: make within-facet ordering for plots
+
+When plotting SIMPER contributions in faceted panels (e.g., one panel per group),
+ggplot2 orders factor levels globally. `add_taxon_group_order()` adds a plotting-only
+factor (`taxon_group`) that is ordered within each group.
+
+```{r}
+d_within_plot <- d_within |>
+  add_taxon_group_order()
+
+d_within_plot |>
+  dplyr::select(taxon, group, contrib, taxon_group) |>
+  dplyr::slice_head(n = 10)
+```
+
+### Example plot: within-group contributions
+
+```{r}
+library(ggplot2)
+
+ggplot(d_within_plot, aes(x = contrib, y = taxon_group)) +
+  geom_col() +
+  facet_wrap(~ group, scales = "free_y") +
+  tidytext::scale_y_reordered() +
+  labs(
+    title = "Within-group SIMPER",
+    subtitle = "Taxa contributing to within-group Bray–Curtis similarity (cumulative cutoff applied)",
+    x = "Contribution to within-group similarity (%)",
+    y = NULL
+  )
+```
+
+## Notes on interpretation
+
+SIMPER is a descriptive decomposition of average similarity/dissimilarity into taxon
+contributions. Contributions are not independent and SIMPER does not provide measures
+of statistical uncertainty.
