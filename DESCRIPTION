@@ -22,6 +22,7 @@ Imports:
     rlang,
     tidytext
 Suggests: 
+    ggplot2,
     knitr,
     quarto,
     rmarkdown,
