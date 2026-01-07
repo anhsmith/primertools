@@ -79,6 +79,7 @@
 <section class="level2"><h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
 <p>This vignette shows how to read a PRIMER SIMPER text output file into a structured list of within-group and between-group contribution tables.</p>
+<p>It also demonstrates helper functions that convert the nested list output into tidy tibbles that are easier to filter, join, tabulate, and plot.</p>
 </section><section class="level2"><h2 id="read-an-example-file-shipped-with-the-package">Read an example file shipped with the package<a class="anchor" aria-label="anchor" href="#read-an-example-file-shipped-with-the-package"></a>
 </h2>
 <div class="cell">
@@ -108,6 +109,7 @@
 </div>
 </section><section class="level2"><h2 id="within-group-contributions">Within-group contributions<a class="anchor" aria-label="anchor" href="#within-group-contributions"></a>
 </h2>
+<p>The <code>within</code> element is a named list of data frames, one per group.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">within</span><span class="op">$</span><span class="va">A</span></span></code></pre></div>
@@ -128,6 +130,7 @@
 </div>
 </section><section class="level2"><h2 id="between-group-contributions">Between-group contributions<a class="anchor" aria-label="anchor" href="#between-group-contributions"></a>
 </h2>
+<p>The <code>between</code> element is a named list of data frames, one per group contrast.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">x</span><span class="op">$</span><span class="va">between</span><span class="op">$</span><span class="va">`A vs H`</span></span></code></pre></div>
@@ -170,6 +173,179 @@
 17 70.34      A      H             68.94</code></pre>
 </div>
 </div>
+</section><section class="level2"><h2 id="helper-convert-within-group-results-to-a-single-tibble">Helper: convert within-group results to a single tibble<a class="anchor" aria-label="anchor" href="#helper-convert-within-group-results-to-a-single-tibble"></a>
+</h2>
+<p><code><a href="../reference/tidy_simper_within.html">tidy_simper_within()</a></code> stacks the within-group tables into one tibble and adds a <code>group</code> column. This makes it easy to filter by cumulative contribution and to work with the results using standard tidyverse workflows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_within</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_simper_within.html">tidy_simper_within</a></span><span class="op">(</span><span class="va">x</span>, cum_max <span class="op">=</span> <span class="fl">90</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">d_within</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 8
+   taxon               av_abund av_sim sim_sd contrib   cum group avg_similarity
+   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1 Trichomusculus bar…     5.05   6.33   1      21.8   21.8 B               29.1
+ 2 Hiatella arctica        3.7    4.59   1.31   15.8   37.5 B               29.1
+ 3 Eatoniella roseoci…     5.35   3.32   0.7    11.4   48.9 B               29.1
+ 4 Pisinna olivacea i…     3.65   2.5    0.74    8.61  57.5 B               29.1
+ 5 Borniola reniformis     5.2    2.2    0.53    7.55  65.1 B               29.1
+ 6 Eatoniella albocol…     2      2.12   0.67    7.29  72.4 B               29.1
+ 7 Hiatella arctica       16.7   12.8    1.34   33.8   33.8 A               37.7
+ 8 Chlamys zelandiae       8.8    6.43   1.18   17.0   50.8 A               37.7
+ 9 Lamellaria ophione      3.85   3.4    0.82    9.01  59.8 A               37.7
+10 Xymene pusillus         4.35   3.22   1.36    8.54  68.4 A               37.7
+11 Trichomusculus bar…     2.65   1.97   0.97    5.21  73.6 A               37.7
+12 Hiatella arctica       13.2   11.0    1.52   32.4   32.4 H               34.2
+13 Chlamys zelandiae       7.75   5.67   1.55   16.6   49.0 H               34.2
+14 Trichomusculus bar…     6.25   4.65   1.59   13.6   62.6 H               34.2
+15 Cantharidus purpur…     2.85   1.94   0.89    5.68  68.2 H               34.2
+16 Borniola reniformis     3.7    1.73   0.81    5.08  73.3 H               34.2
+17 Hiatella arctica       12.3   17.3    1.44   48.1   48.1 L               35.9
+18 Trichomusculus bar…     5.1    8.76   1.25   24.4   72.5 L               35.9</code></pre>
+</div>
+</div>
+<p>Example: show the top 10 taxa per group by contribution.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_within</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">group_by</a></span><span class="op">(</span><span class="va">group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_max</a></span><span class="op">(</span><span class="va">contrib</span>, n <span class="op">=</span> <span class="fl">10</span>, with_ties <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html" class="external-link">ungroup</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 18 × 8
+   taxon               av_abund av_sim sim_sd contrib   cum group avg_similarity
+   &lt;chr&gt;                  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
+ 1 Hiatella arctica       16.7   12.8    1.34   33.8   33.8 A               37.7
+ 2 Chlamys zelandiae       8.8    6.43   1.18   17.0   50.8 A               37.7
+ 3 Lamellaria ophione      3.85   3.4    0.82    9.01  59.8 A               37.7
+ 4 Xymene pusillus         4.35   3.22   1.36    8.54  68.4 A               37.7
+ 5 Trichomusculus bar…     2.65   1.97   0.97    5.21  73.6 A               37.7
+ 6 Trichomusculus bar…     5.05   6.33   1      21.8   21.8 B               29.1
+ 7 Hiatella arctica        3.7    4.59   1.31   15.8   37.5 B               29.1
+ 8 Eatoniella roseoci…     5.35   3.32   0.7    11.4   48.9 B               29.1
+ 9 Pisinna olivacea i…     3.65   2.5    0.74    8.61  57.5 B               29.1
+10 Borniola reniformis     5.2    2.2    0.53    7.55  65.1 B               29.1
+11 Eatoniella albocol…     2      2.12   0.67    7.29  72.4 B               29.1
+12 Hiatella arctica       13.2   11.0    1.52   32.4   32.4 H               34.2
+13 Chlamys zelandiae       7.75   5.67   1.55   16.6   49.0 H               34.2
+14 Trichomusculus bar…     6.25   4.65   1.59   13.6   62.6 H               34.2
+15 Cantharidus purpur…     2.85   1.94   0.89    5.68  68.2 H               34.2
+16 Borniola reniformis     3.7    1.73   0.81    5.08  73.3 H               34.2
+17 Hiatella arctica       12.3   17.3    1.44   48.1   48.1 L               35.9
+18 Trichomusculus bar…     5.1    8.76   1.25   24.4   72.5 L               35.9</code></pre>
+</div>
+</div>
+</section><section class="level2"><h2 id="helper-convert-between-group-results-to-a-single-tibble">Helper: convert between-group results to a single tibble<a class="anchor" aria-label="anchor" href="#helper-convert-between-group-results-to-a-single-tibble"></a>
+</h2>
+<p><code><a href="../reference/tidy_simper_between.html">tidy_simper_between()</a></code> stacks the between-group tables into one tibble and adds a <code>contrast</code> column. It also computes <code>delta_abund = av_abund_1 - av_abund_2</code> to indicate which group has the higher average abundance for each taxon.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_between</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tidy_simper_between.html">tidy_simper_between</a></span><span class="op">(</span><span class="va">x</span>, cum_max <span class="op">=</span> <span class="fl">70</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">d_between</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 89 × 12
+   taxon       av_abund_1 av_abund_2 av_diss diss_sd contrib   cum group1 group2
+   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1 Hiatella a…       3.7       16.7    12.6     1.14   16.1   16.1 B      A
+ 2 Chlamys ze…       0.85       8.8     7.46    1.03    9.57  25.7 B      A
+ 3 Borniola r…       5.2        3       4.62    0.95    5.92  31.6 B      A
+ 4 Eatoniella…       5.35       1.45    4.47    0.88    5.73  37.3 B      A
+ 5 Trichomusc…       5.05       2.65    4.11    0.9     5.28  42.6 B      A
+ 6 Lamellaria…       0.45       3.85    4.1     0.85    5.26  47.9 B      A
+ 7 Xymene pus…       0.6        4.35    3.48    1.13    4.46  52.3 B      A
+ 8 Pisinna ol…       3.65       2.4     3.36    1.02    4.32  56.6 B      A
+ 9 Crepidula …       2.15       2.25    2.54    1.13    3.26  59.9 B      A
+10 Eatoniella…       2          0.15    2.02    0.87    2.6   62.5 B      A
+# ℹ 79 more rows
+# ℹ 3 more variables: avg_dissimilarity &lt;dbl&gt;, contrast &lt;chr&gt;,
+#   delta_abund &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>Example: extract the top contributors for one contrast.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_between</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">contrast</span> <span class="op">==</span> <span class="st">"A vs H"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu">desc</span><span class="op">(</span><span class="va">contrib</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 12
+   taxon       av_abund_1 av_abund_2 av_diss diss_sd contrib   cum group1 group2
+   &lt;chr&gt;            &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;
+ 1 Hiatella a…      16.7       13.2    10.2     1.07   14.8   14.8 A      H
+ 2 Chlamys ze…       8.8        7.75    6.11    1.05    8.86  23.6 A      H
+ 3 Trichomusc…       2.65       6.25    3.29    1.18    4.77  28.4 A      H
+ 4 Lamellaria…       3.85       0.8     3.27    0.77    4.75  33.1 A      H
+ 5 Xymene pus…       4.35       1.5     3.18    1.12    4.62  37.8 A      H
+ 6 Pisinna ol…       2.4        4.25    3.06    0.98    4.44  42.2 A      H
+ 7 Borniola r…       3          3.7     2.91    1.1     4.22  46.4 A      H
+ 8 Eatonina m…       0.85       3.2     2.18    0.8     3.16  49.6 A      H
+ 9 Cantharidu…       0.3        2.85    1.99    1.12    2.88  52.5 A      H
+10 Eatoniella…       1.45       2.05    1.86    0.75    2.7   55.2 A      H
+11 Crepidula …       2.25       0.1     1.8     0.94    2.62  57.8 A      H
+12 Curveulima…       1.95       0.6     1.67    0.66    2.42  60.2 A      H
+13 Onithochit…       2          1.55    1.6     0.96    2.32  62.5 A      H
+14 Fictonoba …       0.65       1.8     1.46    0.57    2.11  64.6 A      H
+15 Asteracmea…       1.9        0.15    1.4     0.82    2.03  66.7 A      H
+# ℹ 3 more variables: avg_dissimilarity &lt;dbl&gt;, contrast &lt;chr&gt;,
+#   delta_abund &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section><section class="level2"><h2 id="helper-make-within-facet-ordering-for-plots">Helper: make within-facet ordering for plots<a class="anchor" aria-label="anchor" href="#helper-make-within-facet-ordering-for-plots"></a>
+</h2>
+<p>When plotting SIMPER contributions in faceted panels (e.g., one panel per group), ggplot2 orders factor levels globally. <code><a href="../reference/add_taxon_group_order.html">add_taxon_group_order()</a></code> adds a plotting-only factor (<code>taxon_group</code>) that is ordered within each group.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d_within_plot</span> <span class="op">&lt;-</span> <span class="va">d_within</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/add_taxon_group_order.html">add_taxon_group_order</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">d_within_plot</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">taxon</span>, <span class="va">group</span>, <span class="va">contrib</span>, <span class="va">taxon_group</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html" class="external-link">slice_head</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+   taxon                     group contrib taxon_group
+   &lt;chr&gt;                     &lt;chr&gt;   &lt;dbl&gt; &lt;fct&gt;
+ 1 Trichomusculus barbatus   B       21.8  Trichomusculus barbatus___B
+ 2 Hiatella arctica          B       15.8  Hiatella arctica___B
+ 3 Eatoniella roseocincta    B       11.4  Eatoniella roseocincta___B
+ 4 Pisinna olivacea impressa B        8.61 Pisinna olivacea impressa___B
+ 5 Borniola reniformis       B        7.55 Borniola reniformis___B
+ 6 Eatoniella albocolumella  B        7.29 Eatoniella albocolumella___B
+ 7 Hiatella arctica          A       33.8  Hiatella arctica___A
+ 8 Chlamys zelandiae         A       17.0  Chlamys zelandiae___A
+ 9 Lamellaria ophione        A        9.01 Lamellaria ophione___A
+10 Xymene pusillus           A        8.54 Xymene pusillus___A          </code></pre>
+</div>
+</div>
+<section class="level3"><h3 id="example-plot-within-group-contributions">Example plot: within-group contributions<a class="anchor" aria-label="anchor" href="#example-plot-within-group-contributions"></a>
+</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">d_within_plot</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">contrib</span>, y <span class="op">=</span> <span class="va">taxon_group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="external-link">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">tidytext</span><span class="fu">::</span><span class="fu"><a href="https://juliasilge.github.io/tidytext/reference/reorder_within.html" class="external-link">scale_y_reordered</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Within-group SIMPER"</span>,</span>
+<span>    subtitle <span class="op">=</span> <span class="st">"Taxa contributing to within-group Bray–Curtis similarity (cumulative cutoff applied)"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Contribution to within-group similarity (%)"</span>,</span>
+<span>    y <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<div class="cell-output-display">
+<div>
+<figure><p><img src="read_simper_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section class="level2"><h2 id="notes-on-interpretation">Notes on interpretation<a class="anchor" aria-label="anchor" href="#notes-on-interpretation"></a>
+</h2>
+<p>SIMPER is a descriptive decomposition of average similarity/dissimilarity into taxon contributions. Contributions are not independent and SIMPER does not provide measures of statistical uncertainty.</p>
 </section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
