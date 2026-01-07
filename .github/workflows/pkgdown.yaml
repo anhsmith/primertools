@@ -36,8 +36,18 @@ jobs:
           extra-packages: any::pkgdown, any::quarto, local::.
           needs: website
 
+      - uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: "release"
+
+      - name: Quarto diagnostics
+        run: |
+          which quarto
+          quarto --version
+          quarto check
+
       - name: Build site
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE, quiet = FALSE)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages 🚀
